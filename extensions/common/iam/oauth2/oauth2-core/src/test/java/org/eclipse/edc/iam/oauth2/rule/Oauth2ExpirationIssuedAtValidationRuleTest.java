@@ -102,9 +102,9 @@ class Oauth2ExpirationIssuedAtValidationRuleTest {
         var rule = new Oauth2ExpirationIssuedAtValidationRule(clock, 5);
 
         var token = ClaimToken.Builder.newInstance()
-            .claim(EXPIRATION_TIME, Date.from(now.plusSeconds(60)))
-            .claim(ISSUED_AT, Date.from(now.plusSeconds(10)))
-            .build();
+                .claim(EXPIRATION_TIME, Date.from(now.plusSeconds(60)))
+                .claim(ISSUED_AT, Date.from(now.plusSeconds(10)))
+                .build();
 
         var result = rule.checkRule(token, emptyMap());
 
@@ -117,9 +117,9 @@ class Oauth2ExpirationIssuedAtValidationRuleTest {
         var rule = new Oauth2ExpirationIssuedAtValidationRule(clock, 20);
 
         var token = ClaimToken.Builder.newInstance()
-            .claim(EXPIRATION_TIME, Date.from(now.plusSeconds(60)))
-            .claim(ISSUED_AT, Date.from(now.plusSeconds(10)))
-            .build();
+                .claim(EXPIRATION_TIME, Date.from(now.plusSeconds(60)))
+                .claim(ISSUED_AT, Date.from(now.plusSeconds(10)))
+                .build();
 
         var result = rule.checkRule(token, emptyMap());
 
@@ -144,9 +144,9 @@ class Oauth2ExpirationIssuedAtValidationRuleTest {
         var rule = new Oauth2ExpirationIssuedAtValidationRule(clock, 0);
 
         var token = ClaimToken.Builder.newInstance()
-            .claim(EXPIRATION_TIME, Date.from(expiresAt))
-            .claim(ISSUED_AT, Date.from(issuedAt))
-            .build();
+                .claim(EXPIRATION_TIME, Date.from(expiresAt))
+                .claim(ISSUED_AT, Date.from(issuedAt))
+                .build();
 
         var result = rule.checkRule(token, emptyMap());
 
@@ -172,9 +172,9 @@ class Oauth2ExpirationIssuedAtValidationRuleTest {
         var rule = new Oauth2ExpirationIssuedAtValidationRule(clock, 2);
 
         var token = ClaimToken.Builder.newInstance()
-            .claim(EXPIRATION_TIME, Date.from(expiresAt))
-            .claim(ISSUED_AT, Date.from(issuedAt))
-            .build();
+                .claim(EXPIRATION_TIME, Date.from(expiresAt))
+                .claim(ISSUED_AT, Date.from(issuedAt))
+                .build();
 
         var result = rule.checkRule(token, emptyMap());
 

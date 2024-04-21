@@ -16,8 +16,6 @@
 
 package org.eclipse.edc.iam.oauth2;
 
-import static java.lang.String.format;
-
 import org.eclipse.edc.iam.oauth2.identity.IdentityProviderKeyResolver;
 import org.eclipse.edc.iam.oauth2.identity.IdentityProviderKeyResolverConfiguration;
 import org.eclipse.edc.iam.oauth2.identity.Oauth2ServiceImpl;
@@ -48,6 +46,8 @@ import java.security.PrivateKey;
 import java.time.Clock;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.String.format;
 
 /**
  * Provides OAuth2 client credentials flow support.
@@ -180,8 +180,8 @@ public class Oauth2ServiceExtension implements ServiceExtension {
     private int getIssuedAtLeeway(ServiceExtensionContext context) {
         if (!context.getConfig().hasKey(ISSUED_AT_LEEWAY)) {
             var message = format(
-                "No value was configured for '%s'. Consider setting a leeway of 2-5s in production to avoid problems with clock skew.",
-                ISSUED_AT_LEEWAY
+                    "No value was configured for '%s'. Consider setting a leeway of 2-5s in production to avoid problems with clock skew.",
+                    ISSUED_AT_LEEWAY
             );
             context.getMonitor().info(message);
         }

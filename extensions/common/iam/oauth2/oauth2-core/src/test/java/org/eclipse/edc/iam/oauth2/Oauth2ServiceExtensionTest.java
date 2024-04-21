@@ -71,10 +71,10 @@ class Oauth2ServiceExtensionTest {
     @Test
     void leewayWarningLoggedWhenLeewayUnconfigured(Oauth2ServiceExtension extension, ServiceExtensionContext context) {
         var config = spy(ConfigFactory.fromMap(Map.of(
-            "edc.oauth.client.id", "id",
-            "edc.oauth.token.url", "url",
-            "edc.oauth.certificate.alias", "alias",
-            "edc.oauth.private.key.alias", "p_alias")));
+                "edc.oauth.client.id", "id",
+                "edc.oauth.token.url", "url",
+                "edc.oauth.certificate.alias", "alias",
+                "edc.oauth.private.key.alias", "p_alias")));
         mockCertificate("alias");
         mockRsaPrivateKey("p_alias");
 
@@ -90,11 +90,11 @@ class Oauth2ServiceExtensionTest {
     @Test
     void leewayNoWarningWhenLeewayConfigured(Oauth2ServiceExtension extension, ServiceExtensionContext context) {
         var config = spy(ConfigFactory.fromMap(Map.of(
-            "edc.oauth.client.id", "id",
-            "edc.oauth.token.url", "url",
-            "edc.oauth.certificate.alias", "alias",
-            "edc.oauth.private.key.alias", "p_alias",
-            "edc.oauth.validation.issued.at.leeway", "5")));
+                "edc.oauth.client.id", "id",
+                "edc.oauth.token.url", "url",
+                "edc.oauth.certificate.alias", "alias",
+                "edc.oauth.private.key.alias", "p_alias",
+                "edc.oauth.validation.issued.at.leeway", "5")));
         mockCertificate("alias");
         mockRsaPrivateKey("p_alias");
 
@@ -116,7 +116,7 @@ class Oauth2ServiceExtensionTest {
     private void mockCertificate(String alias) {
         try {
             var certificate = mock(X509Certificate.class);
-            when(certificate.getEncoded()).thenReturn(new byte[] {});
+            when(certificate.getEncoded()).thenReturn(new byte[]{});
             when(certificateResolver.resolveCertificate(alias)).thenReturn(certificate);
         } catch (CertificateEncodingException e) {
             // Should never happen, it's a checked exception in the way of mocking
