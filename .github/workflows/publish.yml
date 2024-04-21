@@ -1,0 +1,30 @@
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+  pull_request:
+    branches: [ "main", "version/**" ]
+
+jobs:
+  build-gradle-project:
+    name: Build Gradle Project
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-build
+      - uses: ./.github/actions/run-tests
+
+      - name: Debug
+        run: echo ${{ github.ref }}
+
+      - name: "Gradle: Publish"
+        run: ./gradlew check publishAllPublicationsToGitHubPackagesRepository ${{ env.GRADLE_ARGS }}
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}

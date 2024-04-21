@@ -26,12 +26,20 @@ import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.edc.spi.types.domain.transfer.DataFlowRequest;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import static org.eclipse.edc.connector.dataplane.spi.schema.DataFlowRequestSchema.BODY;
+import static org.eclipse.edc.connector.dataplane.spi.schema.DataFlowRequestSchema.MEDIA_TYPE;
+import static org.eclipse.edc.connector.dataplane.spi.schema.DataFlowRequestSchema.METHOD;
+import static org.eclipse.edc.connector.dataplane.spi.schema.DataFlowRequestSchema.PATH;
+import static org.eclipse.edc.connector.dataplane.spi.schema.DataFlowRequestSchema.QUERY_PARAMS;
 import static org.eclipse.edc.connector.transfer.dataplane.spi.TransferDataPlaneConstants.HTTP_PROXY;
 
 public class ProviderPushTransferDataFlowController implements DataFlowController {
 
+    private static final String ROOT_KEY = "https://sovity.de/workaround/proxy/param/";
     private final ControlPlaneApiUrl callbackUrl;
     private final DataPlaneClient dataPlaneClient;
 
@@ -56,6 +64,14 @@ public class ProviderPushTransferDataFlowController implements DataFlowControlle
     }
 
     private DataFlowRequest createRequest(DataRequest dataRequest, DataAddress sourceAddress) {
+        Map<String, String> parameterizations = new HashMap<>();
+
+        extractIfPresent(dataRequest, METHOD, parameterizations);
+        extractIfPresent(dataRequest, BODY, parameterizations);
+        extractIfPresent(dataRequest, MEDIA_TYPE, parameterizations);
+        extractIfPresent(dataRequest, PATH, parameterizations);
+        extractIfPresent(dataRequest, QUERY_PARAMS, parameterizations);
+
         return DataFlowRequest.Builder.newInstance()
                 .id(UUID.randomUUID().toString())
                 .processId(dataRequest.getProcessId())
@@ -64,6 +80,14 @@ public class ProviderPushTransferDataFlowController implements DataFlowControlle
                 .destinationType(dataRequest.getDestinationType())
                 .destinationDataAddress(dataRequest.getDataDestination())
                 .callbackAddress(callbackUrl != null ? callbackUrl.get() : null)
+                .properties(parameterizations)
                 .build();
+    }
+
+    private static void extractIfPresent(DataRequest dataRequest, String key, Map<String, String> parameterizations) {
+        Object param = dataRequest.getDataDestination().getProperties().get(ROOT_KEY + key);
+        if (param != null) {
+            parameterizations.put(key, param.toString());
+        }
     }
 }
