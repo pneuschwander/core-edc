@@ -83,7 +83,7 @@ class Oauth2ServiceExtensionTest {
         when(context.getConfig(any())).thenReturn(config);
         extension.initialize(context);
 
-        var message = "No value was configured for 'edc.oauth.validation.issued.at.leeway'.";
+        var message = "No value was configured for 'edc.oauth.validation.iat.leeway'.";
         verify(monitor, times(1)).info(contains(message));
     }
 
@@ -94,7 +94,7 @@ class Oauth2ServiceExtensionTest {
             "edc.oauth.token.url", "url",
             "edc.oauth.certificate.alias", "alias",
             "edc.oauth.private.key.alias", "p_alias",
-            "edc.oauth.validation.issued.at.leeway", "5")));
+            "edc.oauth.validation.iat.leeway", "5")));
         mockCertificate("alias");
         mockRsaPrivateKey("p_alias");
 
@@ -103,7 +103,7 @@ class Oauth2ServiceExtensionTest {
         when(context.getConfig(any())).thenReturn(config);
         extension.initialize(context);
 
-        var message = "No value was configured for 'edc.oauth.validation.issued.at.leeway'.";
+        var message = "No value was configured for 'edc.oauth.validation.iat.leeway'.";
         verify(monitor, never()).info(contains(message));
     }
 
